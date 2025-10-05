@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediScan AI - Intelligent Medical Report Analysis</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        /* Custom CSS for animations and advanced styling */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8;
+        }
+
+        /* Keyframe animations for "award-winning" feel */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes scaleIn {
+            from { transform: scale(0.95); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        /* Apply animations to elements */
+        .animate-fadeIn { animation: fadeIn 0.5s ease-in-out; }
+        .animate-fadeInUp { animation: fadeInUp 0.5s ease-in-out; }
+        .animate-scaleIn { animation: scaleIn 0.3s ease-out; }
+
+        /* Staggered animation for list items */
+        .stagger-children > * {
+            animation: fadeInUp 0.5s ease-out forwards;
+            opacity: 0;
+        }
+
+        /* Custom scrollbar for a polished look */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #e0e7ff;
+        }
+        ::-webkit-scrollbar-thumb {
+            background-color: #4f46e5;
+            border-radius: 10px;
+            border: 2px solid #e0e7ff;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .glass-effect {
+             background: rgba(255, 255, 255, 0.1);
+             backdrop-filter: blur(10px);
+             border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+    </style>
+</head>
+<body class="text-gray-800 antialiased">
+
+    <!-- Main Application Container -->
+    <div id="app" class="min-h-screen transition-all duration-500">
+
+        <!-- ===== Authentication Section ===== -->
+        <section id="auth-section" class="flex items-center justify-center min-h-screen gradient-bg p-4 animate-fadeIn">
+            <div class="w-full max-w-md animate-scaleIn">
+                <div class="bg-white/90 backdrop-blur-xl rounded-2xl shadow-2xl p-8">
+                    <div class="text-center mb-8">
+                        <h1 class="text-3xl font-bold text-gray-900">MediScan <span class="text-indigo-600">AI</span></h1>
+                        <p class="text-gray-500 mt-2">Your Personal Health Companion</p>
+                    </div>
+
+                    <!-- Login Form -->
+                    <div id="login-form">
+                        <form onsubmit="event.preventDefault(); handleLogin();">
+                            <div class="space-y-4">
+                                <div>
+                                    <label for="email" class="text-sm font-medium text-gray-700">Email</label>
+                                    <input type="email" id="email" value="demo@mediscan.ai" class="mt-1 block w-full px-4 py-3 bg-gray-100 border-transparent rounded-lg focus:ring-2 focus:ring-indigo-500 focus:bg-white focus:border-indigo-500 transition" required>
+                                </div>
+                                <div>
+                                    <label for="password" class="text-sm font-medium text-gray-700">Password</label>
+                                    <input type="password" id="password" value="password" class="mt-1 block w-full px-4 py-3 bg-gray-100 border-transparent rounded-lg focus:ring-2 focus:ring-indigo-500 focus:bg-white focus:border-indigo-500 transition" required>
+                                </div>
+                            </div>
+                            <div class="mt-6">
+                                <button type="submit" class="w-full text-white bg-indigo-600 hover:bg-indigo-700 focus:ring-4 focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 py-3.5 text-center transition-transform transform hover:scale-105 shadow-lg">Login</button>
+                            </div>
+                        </form>
+                        <p class="text-center text-sm text-gray-500 mt-6">
+                            Don't have an account? <a href="#" onclick="toggleAuthForms()" class="font-medium text-indigo-600 hover:underline">Sign up</a>
+                        </p>
+                    </div>
+
+                    <!-- Signup Form (hidden by default) -->
+                    <div id="signup-form" class="hidden">
+                       <form onsubmit="event.preventDefault(); handleLogin();">
+                            <div class="space-y-4">
+                                <div>
+                                    <label for="signup-name" class="text-sm font-medium text-gray-700">Full Name</label>
+                                    <input type="text" id="signup-name" class="mt-1 block w-full px-4 py-3 bg-gray-100 border-transparent rounded-lg focus:ring-2 focus:ring-indigo-500 focus:bg-white focus:border-indigo-500 transition" required>
+                                </div>
+                                <div>
+                                    <label for="signup-email" class="text-sm font-medium text-gray-700">Email</label>
+                                    <input type="email" id="signup-email" class="mt-1 block w-full px-4 py-3 bg-gray-100 border-transparent rounded-lg focus:ring-2 focus:ring-indigo-500 focus:bg-white focus:border-indigo-500 transition" required>
+                                </div>
+                                <div>
+                                    <label for="signup-password" class="text-sm font-medium text-gray-700">Password</label>
+                                    <input type="password" id="signup-password" class="mt-1 block w-full px-4 py-3 bg-gray-100 border-transparent rounded-lg focus:ring-2 focus:ring-indigo-500 focus:bg-white focus:border-indigo-500 transition" required>
+                                </div>
+                            </div>
+                            <div class="mt-6">
+                                <button type="submit" class="w-full text-white bg-indigo-600 hover:bg-indigo-700 focus:ring-4 focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 py-3.5 text-center transition-transform transform hover:scale-105 shadow-lg">Create Account</button>
+                            </div>
+                        </form>
+                        <p class="text-center text-sm text-gray-500 mt-6">
+                            Already have an account? <a href="#" onclick="toggleAuthForms()" class="font-medium text-indigo-600 hover:underline">Log in</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== Main Application Section ===== -->
+        <main id="main-app" class="hidden animate-fadeIn">
+            <!-- Header -->
+            <header class="bg-white/80 backdrop-blur-lg sticky top-0 z-30 shadow-md">
+                <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="flex items-center justify-between h-20">
+                        <div class="flex-shrink-0">
+                           <h1 class="text-2xl font-bold text-gray-900">MediScan <span class="text-indigo-600">AI</span></h1>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                           <span class="text-gray-600 hidden sm:block">Welcome, Alex!</span>
+                            <button onclick="handleLogout()" class="flex items-center space-x-2 text-sm text-gray-500 hover:text-indigo-600 transition-colors">
+                                <i data-lucide="log-out" class="w-4 h-4"></i>
+                                <span>Logout</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Main Content Area -->
+            <div id="app-content" class="container mx-auto p-4 sm:p-6 lg:p-8">
+
+                <!-- Dashboard View -->
+                <div id="dashboard-view">
+                    <div class="flex justify-between items-center mb-6 animate-fadeInUp" style="animation-delay: 100ms;">
+                        <h2 class="text-3xl font-bold text-gray-800">Your Medical History</h2>
+                        <button onclick="showUploadView()" class="inline-flex items-center gap-2 bg-indigo-600 text-white font-semibold py-3 px-6 rounded-lg shadow-lg hover:bg-indigo-700 transition-all transform hover:scale-105">
+                            <i data-lucide="upload-cloud" class="w-5 h-5"></i>
+                            Upload New Report
+                        </button>
+                    </div>
+                    
+                    <!-- Reports List -->
+                    <div id="reports-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 stagger-children">
+                        <!-- Sample Report Card 1 -->
+                        <div class="bg-white p-6 rounded-2xl shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 cursor-pointer" onclick="showAnalysisView()" style="animation-delay: 200ms;">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <h3 class="font-bold text-lg text-gray-800">Blood Test Report</h3>
+                                    <p class="text-sm text-gray-500">Uploaded: 20 Sep 2025</p>
+                                </div>
+                                <div class="text-green-500 bg-green-100 text-xs font-bold px-3 py-1 rounded-full">Normal</div>
+                            </div>
+                            <p class="text-gray-600 mt-4 text-sm">Routine checkup results. All markers within the standard range.</p>
+                            <div class="mt-6 flex justify-end space-x-2">
+                                <button class="p-2 text-gray-400 hover:text-indigo-600 transition rounded-full hover:bg-gray-100"><i data-lucide="edit-3" class="w-4 h-4"></i></button>
+                                <button class="p-2 text-gray-400 hover:text-red-600 transition rounded-full hover:bg-gray-100"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+                            </div>
+                        </div>
+                        <!-- Sample Report Card 2 -->
+                        <div class="bg-white p-6 rounded-2xl shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 cursor-pointer" onclick="showAnalysisView()" style="animation-delay: 300ms;">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <h3 class="font-bold text-lg text-gray-800">X-Ray: Left Arm</h3>
+                                    <p class="text-sm text-gray-500">Uploaded: 15 Aug 2025</p>
+                                </div>
+                                <div class="text-orange-500 bg-orange-100 text-xs font-bold px-3 py-1 rounded-full">Action Needed</div>
+                            </div>
+                            <p class="text-gray-600 mt-4 text-sm">Radiology report indicates a minor hairline fracture. Follow-up required.</p>
+                             <div class="mt-6 flex justify-end space-x-2">
+                                <button class="p-2 text-gray-400 hover:text-indigo-600 transition rounded-full hover:bg-gray-100"><i data-lucide="edit-3" class="w-4 h-4"></i></button>
+                                <button class="p-2 text-gray-400 hover:text-red-600 transition rounded-full hover:bg-gray-100"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+                            </div>
+                        </div>
+                        <!-- Add more placeholder cards here -->
+                         <div class="bg-white p-6 rounded-2xl shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 cursor-pointer" onclick="showAnalysisView()" style="animation-delay: 400ms;">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <h3 class="font-bold text-lg text-gray-800">Lipid Panel</h3>
+                                    <p class="text-sm text-gray-500">Uploaded: 02 Jun 2025</p>
+                                </div>
+                                <div class="text-red-500 bg-red-100 text-xs font-bold px-3 py-1 rounded-full">High Risk</div>
+                            </div>
+                            <p class="text-gray-600 mt-4 text-sm">Cholesterol levels are elevated. Lifestyle changes and consultation advised.</p>
+                             <div class="mt-6 flex justify-end space-x-2">
+                                <button class="p-2 text-gray-400 hover:text-indigo-600 transition rounded-full hover:bg-gray-100"><i data-lucide="edit-3" class="w-4 h-4"></i></button>
+                                <button class="p-2 text-gray-400 hover:text-red-600 transition rounded-full hover:bg-gray-100"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Upload View -->
+                <div id="upload-view" class="hidden animate-fadeInUp">
+                    <button onclick="showDashboardView()" class="flex items-center gap-2 text-gray-500 hover:text-indigo-600 mb-6 font-medium">
+                        <i data-lucide="arrow-left" class="w-4 h-4"></i>
+                        Back to Dashboard
+                    </button>
+                     <div class="bg-white rounded-2xl shadow-xl p-8 max-w-2xl mx-auto">
+                        <div id="upload-form-container">
+                             <h2 class="text-2xl font-bold text-center mb-2">Upload Your Medical Report</h2>
+                             <p class="text-gray-500 text-center mb-8">Supports PDF, JPG, and PNG files.</p>
+                             <div class="border-4 border-dashed border-gray-200 rounded-2xl p-10 text-center cursor-pointer hover:border-indigo-400 transition-colors" id="drop-zone">
+                                 <input type="file" id="file-input" class="hidden" accept=".pdf,.jpg,.jpeg,.png">
+                                 <div class="flex flex-col items-center justify-center">
+                                    <i data-lucide="file-up" class="w-16 h-16 text-indigo-300 mb-4"></i>
+                                     <p class="text-gray-600 font-semibold">Drag & drop your file here</p>
+                                     <p class="text-gray-400 text-sm mt-1">or <span class="text-indigo-600 font-medium">click to browse</span></p>
+                                     <p id="file-name" class="mt-4 text-sm font-medium text-gray-700"></p>
+                                 </div>
+                             </div>
+                             <button onclick="handleFileUpload()" class="w-full mt-8 bg-indigo-600 text-white font-semibold py-3 px-6 rounded-lg shadow-lg hover:bg-indigo-700 transition-all transform hover:scale-105 disabled:bg-gray-400 disabled:cursor-not-allowed" id="analyze-btn" disabled>
+                                 Analyze Report
+                             </button>
+                        </div>
+                        <div id="loading-container" class="hidden text-center py-10">
+                             <div class="w-16 h-16 border-4 border-dashed rounded-full animate-spin border-indigo-600 mx-auto"></div>
+                             <h3 class="text-xl font-semibold mt-6">Analyzing Report...</h3>
+                             <p class="text-gray-500 mt-2">Our AI is extracting insights. This may take a moment.</p>
+                        </div>
+                     </div>
+                </div>
+
+                <!-- Analysis Result View -->
+                <div id="analysis-view" class="hidden animate-fadeIn">
+                     <button onclick="showDashboardView()" class="flex items-center gap-2 text-gray-500 hover:text-indigo-600 mb-6 font-medium animate-fadeInUp" style="animation-delay: 100ms;">
+                        <i data-lucide="arrow-left" class="w-4 h-4"></i>
+                        Back to Dashboard
+                    </button>
+
+                    <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
+                        <div class="p-8 gradient-bg text-white animate-fadeInUp" style="animation-delay: 200ms;">
+                            <h2 class="text-3xl font-bold">Analysis of Blood Test Report</h2>
+                            <p class="opacity-80 mt-1">Analysis generated on 23 Sep 2025</p>
+                        </div>
+
+                        <div class="p-8 grid grid-cols-1 lg:grid-cols-3 gap-8">
+                            <div class="lg:col-span-2 space-y-8 stagger-children">
+                                <!-- Analysis Sections -->
+                                <div class="p-6 bg-slate-50 rounded-xl" style="animation-delay: 300ms;">
+                                    <h4 class="font-bold text-lg flex items-center gap-3"><i data-lucide="file-text" class="w-6 h-6 text-indigo-500"></i>Condition Description</h4>
+                                    <p class="text-gray-600 mt-3">The report indicates slightly elevated levels of Low-Density Lipoprotein (LDL) cholesterol, commonly known as "bad" cholesterol. All other markers, including red and white blood cell counts, platelets, and glucose levels, are within the normal range.</p>
+                                </div>
+                                <div class="p-6 bg-slate-50 rounded-xl" style="animation-delay: 400ms;">
+                                    <h4 class="font-bold text-lg flex items-center gap-3"><i data-lucide="pilcrow" class="w-6 h-6 text-green-500"></i>Medicine Recommendations</h4>
+                                    <p class="text-gray-600 mt-3">No prescription medication is immediately necessary. Consider over-the-counter Omega-3 fish oil supplements (1000mg daily) to support heart health. Consult a physician before starting any new supplement.</p>
+                                </div>
+                                <div class="p-6 bg-slate-50 rounded-xl" style="animation-delay: 500ms;">
+                                    <h4 class="font-bold text-lg flex items-center gap-3"><i data-lucide="leaf" class="w-6 h-6 text-teal-500"></i>Gharelu Upay (Home Remedies)</h4>
+                                    <ul class="list-disc list-inside text-gray-600 mt-3 space-y-1">
+                                        <li>Incorporate garlic and turmeric into your daily diet.</li>
+                                        <li>Drink a glass of warm lemon water in the morning.</li>
+                                        <li>Increase intake of soluble fiber through oats and apples.</li>
+                                    </ul>
+                                </div>
+                                <div class="p-6 bg-slate-50 rounded-xl" style="animation-delay: 600ms;">
+                                    <h4 class="font-bold text-lg flex items-center gap-3"><i data-lucide="shield-alert" class="w-6 h-6 text-orange-500"></i>Precautions</h4>
+                                     <ul class="list-disc list-inside text-gray-600 mt-3 space-y-1">
+                                        <li>Reduce consumption of saturated and trans fats found in fried and processed foods.</li>
+                                        <li>Incorporate at least 30 minutes of moderate exercise, like brisk walking, daily.</li>
+                                        <li>Monitor your blood pressure regularly.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="space-y-6 stagger-children">
+                                <div class="p-6 bg-slate-50 rounded-xl" style="animation-delay: 700ms;">
+                                     <h4 class="font-bold text-lg flex items-center gap-3"><i data-lucide="hospital" class="w-6 h-6 text-blue-500"></i>Nearby Doctors</h4>
+                                      <ul class="space-y-3 mt-3">
+                                        <li class="flex items-center gap-3 text-sm hover:bg-slate-100 p-2 rounded-md">
+                                            <i data-lucide="map-pin" class="w-4 h-4 text-gray-400"></i>
+                                            <div>
+                                                <p class="font-semibold">Apollo Hospital, Indore</p>
+                                                <p class="text-gray-500">Cardiology Dept.</p>
+                                            </div>
+                                        </li>
+                                         <li class="flex items-center gap-3 text-sm hover:bg-slate-100 p-2 rounded-md">
+                                            <i data-lucide="map-pin" class="w-4 h-4 text-gray-400"></i>
+                                            <div>
+                                                <p class="font-semibold">Dr. Sharma's Clinic</p>
+                                                <p class="text-gray-500">General Physician</p>
+                                            </div>
+                                        </li>
+                                      </ul>
+                                </div>
+                                 <div class="p-6 bg-slate-50 rounded-xl" style="animation-delay: 800ms;">
+                                     <h4 class="font-bold text-lg flex items-center gap-3"><i data-lucide="youtube" class="w-6 h-6 text-red-500"></i>Emergency Videos</h4>
+                                     <div class="aspect-w-16 aspect-h-9 mt-4">
+                                        <iframe class="rounded-lg" src="https://www.youtube.com/embed/n5s2p_rz_R8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // --- DOM Element References ---
+        const authSection = document.getElementById('auth-section');
+        const mainApp = document.getElementById('main-app');
+        const loginForm = document.getElementById('login-form');
+        const signupForm = document.getElementById('signup-form');
+        
+        const dashboardView = document.getElementById('dashboard-view');
+        const uploadView = document.getElementById('upload-view');
+        const analysisView = document.getElementById('analysis-view');
+
+        const uploadFormContainer = document.getElementById('upload-form-container');
+        const loadingContainer = document.getElementById('loading-container');
+        const dropZone = document.getElementById('drop-zone');
+        const fileInput = document.getElementById('file-input');
+        const fileNameDisplay = document.getElementById('file-name');
+        const analyzeBtn = document.getElementById('analyze-btn');
+
+        // --- UI Navigation Logic ---
+        function showView(viewToShow) {
+            dashboardView.classList.add('hidden');
+            uploadView.classList.add('hidden');
+            analysisView.classList.add('hidden');
+            viewToShow.classList.remove('hidden');
+            window.scrollTo(0, 0); // Scroll to top on view change
+        }
+
+        function showDashboardView() {
+            showView(dashboardView);
+        }
+
+        function showUploadView() {
+            showView(uploadView);
+        }
+
+        function showAnalysisView() {
+            showView(analysisView);
+        }
+
+        function toggleAuthForms() {
+            loginForm.classList.toggle('hidden');
+            signupForm.classList.toggle('hidden');
+        }
+
+        // --- Authentication Simulation ---
+        function handleLogin() {
+            // Simulate API call
+            authSection.classList.add('animate-fadeOut'); // A fadeOut class would be nice
+            setTimeout(() => {
+                authSection.classList.add('hidden');
+                mainApp.classList.remove('hidden');
+                lucide.createIcons(); // Re-initialize icons after new content is shown
+            }, 300);
+        }
+
+        function handleLogout() {
+            mainApp.classList.add('hidden');
+            authSection.classList.remove('hidden');
+            authSection.classList.remove('animate-fadeOut');
+            showDashboardView(); // Reset to default view
+        }
+
+        // --- File Upload Simulation ---
+        dropZone.addEventListener('click', () => fileInput.click());
+        
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.classList.add('border-indigo-400', 'bg-indigo-50');
+        });
+
+        dropZone.addEventListener('dragleave', () => {
+             dropZone.classList.remove('border-indigo-400', 'bg-indigo-50');
+        });
+        
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('border-indigo-400', 'bg-indigo-50');
+            if (e.dataTransfer.files.length) {
+                fileInput.files = e.dataTransfer.files;
+                updateFileName();
+            }
+        });
+
+        fileInput.addEventListener('change', updateFileName);
+
+        function updateFileName() {
+            if (fileInput.files.length > 0) {
+                fileNameDisplay.textContent = `Selected file: ${fileInput.files[0].name}`;
+                analyzeBtn.disabled = false;
+            } else {
+                fileNameDisplay.textContent = '';
+                analyzeBtn.disabled = true;
+            }
+        }
+
+        function handleFileUpload() {
+            // 1. Show loading animation
+            uploadFormContainer.classList.add('hidden');
+            loadingContainer.classList.remove('hidden');
+
+            // 2. Simulate OCR and AI processing
+            setTimeout(() => {
+                // 3. Hide loading and show results
+                showAnalysisView();
+
+                // 4. Reset upload form for next time
+                uploadFormContainer.classList.remove('hidden');
+                loadingContainer.classList.add('hidden');
+                fileInput.value = '';
+                updateFileName();
+            }, 3000); // Simulate 3 second processing time
+        }
+
+        // --- Initial Load ---
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+django
+djangorestframework
+djangorestframework-simplejwt
+django-cors-headers
+pytesseract
+Pillow
+pdf2image
+python-dotenv
+google-generativeai
+googlemaps

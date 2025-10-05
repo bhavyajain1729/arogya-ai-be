@@ -1,0 +1,94 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual Environment
+# You should ignore your virtual environment directory.
+# Common names are 'venv', 'env', '.venv', or '.env'.
+# Uncomment or modify based on your setup.
+venv/
+env/
+.venv/
+.env/
+
+# Dependency Management (if you use tools other than just pip)
+# Pipenv
+Pipfile.lock
+# Poetry
+poetry.lock
+
+# Operating System Files
+.DS_Store
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE and Editor Files
+# Generally, ignore user-specific settings for IDEs.
+# VSCode
+.vscode/
+
+# PyCharm/IntelliJ
+.idea/
+*.iws
+*.iml
+*.ipr
+out/
+
+# Django specific files
+# Database
+db.sqlite3
+*.log
+*.pot
+
+# Secret/Configuration files
+# Store sensitive data like secret keys and API keys in a local
+# environment file and IGNORE it from version control!
+.env
+.flaskenv
+local_settings.py
+
+# Media files
+# User-uploaded files, which should not be version controlled
+/media/
+
+# Static files
+# The collected static files, often placed here when deploying
+/static_root/
+/staticfiles/
+
+# Testing and coverage
+.coverage
+htmlcov/
+.tox/
+.pytest_cache/
+nosetests.xml
+coverage.xml
+*.cover
+
+# Translations
+# Compiled translation files (you should usually commit the *.po files)
+*.mo
